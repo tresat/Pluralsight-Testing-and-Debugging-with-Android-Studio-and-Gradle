@@ -22,6 +22,22 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "monetization"
+    productFlavors {
+        free {
+            dimension "monetization"
+            applicationIdSuffix ".free"
+            versionNameSuffix "-free"
+        }
+
+        pro {
+            dimension "monetization"
+            applicationIdSuffix ".pro"
+            versionNameSuffix "-pro"
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -29,15 +45,66 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+//    buildFeatures {
+//        viewBinding true
+//    }
+    namespace 'com.tomtresansky.hydrateme'
+
+    testOptions {
+        // Include android resource files (like strings.xml) when running unit tests
+        unitTests.includeAndroidResources = true
+
+
+        managedDevices {
+            devices {
+                nexus6api32(com.android.build.api.dsl.ManagedVirtualDevice) {
+                    // Use device profiles you typically see in Android Studio.
+                    device = "Nexus 6"
+                    // Use only API levels 27 and higher.
+                    apiLevel = 32
+                    // To include Google services, use "google".
+                    systemImageSource = "google"
+                    // Whether the image must be a 64 bit image. Defaults to false,
+                    // in which case the managed device will use a 32 bit image.
+                    // Not applicable to arm64 machines.
+                    require64Bit = false
+                }
+
+                pixel2api30 (com.android.build.api.dsl.ManagedVirtualDevice) {
+                    // Use device profiles you typically see in Android Studio.
+                    device = "Pixel 2"
+                    // ATD currently support only API level 30.
+                    apiLevel = 30
+                    // You can also specify "google-atd" if you require Google Play Services.
+                    systemImageSource = "aosp-atd"
+                    // Whether the image must be a 64 bit image.
+                    require64Bit = false
+                }
+            }
+        }
+
+        deviceGroups {
+            phones {
+                targetDevices.add(devices.nexus6api32)
+                targetDevices.add(devices.pixel2api30)
+            }
+        }
+    }
 }
 
 dependencies {
-
     implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
+
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.robolectric:robolectric:4.8'
+    testImplementation 'androidx.test.ext:junit:1.1.3'
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test:core-ktx:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }

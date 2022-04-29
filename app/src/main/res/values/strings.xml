@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Hydrate Me</string>
+    <string name="title_activity_create_entry">Create Entry</string>
+
+    <string name="entry_saved">Entry saved.  Great going!</string>
+    <string name="add_entry_button_text">Add Entry</string>
+
+    <string name="done">You are done for today 👍<day></day></string>
+    <string name="not_done">Drink 3000ml 💦 everyday<day></day></string>
 </resources>
